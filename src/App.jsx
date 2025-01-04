@@ -20,6 +20,15 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const loggedInUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    if (loggedInUserJSON) {
+      const user = JSON.parse(loggedInUserJSON);
+      setUser(user);
+      noteService.setToken(user.token);
+    }
+  }, []);
+
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
