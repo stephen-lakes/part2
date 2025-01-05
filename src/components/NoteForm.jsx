@@ -8,6 +8,7 @@ const NoteForm = ({ createNote }) => {
     createNote({
       content: newNote,
       important: true,
+      userId: JSON.parse(window.localStorage.getItem("loggedNoteappuser")).id,
     });
 
     setNewNote("");
