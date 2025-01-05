@@ -27,6 +27,6 @@ const Togglable = forwardRef((props, refs) => {
       </div>
     </div>
   );
-};
+})
 
 export default Togglable;
