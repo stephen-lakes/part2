@@ -6,6 +6,7 @@ import noteService from "./services/notes";
 import loginService from "./services/login";
 import LoginForm from "./components/Login";
 import Togglable from "./components/Toggleable";
+import NoteForm from "./components/NoteForm"
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -101,10 +102,13 @@ const App = () => {
   );
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input value={newNote} onChange={handleNoteChange} />
-      <button type="submit">save</button>
-    </form>
+    <Togglable buttonLabel="new note">
+      <NoteForm
+        onSubmit={addNote}
+        value={newNote}
+        handleChange={handleNoteChange}
+      />
+    </Togglable>
   );
 
   return (
