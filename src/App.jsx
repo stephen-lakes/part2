@@ -4,6 +4,7 @@ import Notification from "./components/Notification";
 import Footer from "./components/Footer";
 import noteService from "./services/notes";
 import loginService from "./services/login";
+import LoginForm from "./components/Login";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -72,7 +73,7 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("loggedNoteappuser", JSON.stringify(user));
       noteService.setToken(user.token);
-      
+
       setUser(user);
       setUsername("");
       setPassword("");
@@ -123,7 +124,13 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {user === null ? (
-        loginForm()
+        <LoginForm
+          handleSubmit={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+        />
       ) : (
         <div>
           <p>{user.name} logged-in</p>
