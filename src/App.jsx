@@ -82,6 +82,8 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem("loggedNoteappuser");
     setUser(null);
+    setSuccessMessage("Sucessfully Logged out");
+    setTimeout(() => setSuccessMessage(null), 1000);
   };
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
