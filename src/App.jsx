@@ -63,7 +63,6 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("loggedNoteappuser", JSON.stringify(user));
       noteService.setToken(user.token);
-
       setUser(user);
       setUsername("");
       setPassword("");
@@ -89,7 +88,7 @@ const App = () => {
     </Togglable>
   );
 
-  const noteFormRef = useRef()
+  const noteFormRef = useRef();
 
   const noteForm = () => (
     <Togglable buttonLabel="new note" ref={noteFormRef}>
@@ -97,20 +96,21 @@ const App = () => {
     </Togglable>
   );
 
+  const renderLoginForm = () => (
+    <div>
+      <Notification message={errorMessage} /> {loginForm()}
+    </div>
+  );
+  const renderNoteForm = () => (
+    <div>
+      <p>{user.name} logged-in</p> {noteForm()}
+    </div>
+  );
+
   return (
     <div>
       <h1>Notes</h1>
-      <Notification message={errorMessage} />
-
-      {user === null ? (
-        loginForm()
-      ) : (
-        <div>
-          <p>{user.name} logged-in</p>
-          {noteForm()}
-        </div>
-      )}
-
+      {user === null ? renderLoginForm() : renderNoteForm()}
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
