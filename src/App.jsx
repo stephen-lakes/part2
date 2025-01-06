@@ -12,6 +12,7 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -23,7 +24,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const loggedInUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    const loggedInUserJSON = window.localStorage.getItem("loggedNoteappuser");
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON);
       setUser(user);
@@ -63,16 +64,26 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("loggedNoteappuser", JSON.stringify(user));
       noteService.setToken(user.token);
-
       setUser(user);
       setUsername("");
       setPassword("");
+      setSuccessMessage("Login Successful");
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 1000);
     } catch (exception) {
       setErrorMessage("wrong credentials");
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedNoteappuser");
+    setUser(null);
+    setSuccessMessage("Sucessfully Logged out");
+    setTimeout(() => setSuccessMessage(null), 1000);
   };
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
@@ -89,7 +100,7 @@ const App = () => {
     </Togglable>
   );
 
-  const noteFormRef = useRef()
+  const noteFormRef = useRef();
 
   const noteForm = () => (
     <Togglable buttonLabel="new note" ref={noteFormRef}>
@@ -97,20 +108,23 @@ const App = () => {
     </Togglable>
   );
 
+  const renderLoginForm = () => <div>{loginForm()}</div>;
+  const renderNoteForm = () => (
+    <div>
+      <p>
+        {user.name} logged-in
+        <button onClick={handleLogout}>Log out</button>
+      </p>
+      {noteForm()}
+    </div>
+  );
+
   return (
     <div>
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
       <h1>Notes</h1>
-      <Notification message={errorMessage} />
-
-      {user === null ? (
-        loginForm()
-      ) : (
-        <div>
-          <p>{user.name} logged-in</p>
-          {noteForm()}
-        </div>
-      )}
-
+      {user === null ? renderLoginForm() : renderNoteForm()}
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
