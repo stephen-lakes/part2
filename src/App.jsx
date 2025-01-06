@@ -23,7 +23,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const loggedInUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    const loggedInUserJSON = window.localStorage.getItem("loggedNoteappuser");
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON);
       setUser(user);
