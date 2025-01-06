@@ -12,6 +12,7 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -66,6 +67,10 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
+      setSuccessMessage("Login Successful");
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 1000);
     } catch (exception) {
       setErrorMessage("wrong credentials");
       setTimeout(() => {
@@ -101,11 +106,7 @@ const App = () => {
     </Togglable>
   );
 
-  const renderLoginForm = () => (
-    <div>
-      <Notification message={errorMessage} /> {loginForm()}
-    </div>
-  );
+  const renderLoginForm = () => <div>{loginForm()}</div>;
   const renderNoteForm = () => (
     <div>
       <p>
@@ -118,6 +119,8 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
       <h1>Notes</h1>
       {user === null ? renderLoginForm() : renderNoteForm()}
       <div>
