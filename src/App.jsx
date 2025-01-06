@@ -74,6 +74,11 @@ const App = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("loggedNoteappuser");
+    setUser(null);
+  };
+
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   const loginForm = () => (
@@ -103,7 +108,11 @@ const App = () => {
   );
   const renderNoteForm = () => (
     <div>
-      <p>{user.name} logged-in</p> {noteForm()}
+      <p>
+        {user.name} logged-in
+        <button onClick={handleLogout}>Log out</button>
+      </p>
+      {noteForm()}
     </div>
   );
 
