@@ -1,4 +1,6 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import Note from "./Note";
 
 test("renders content", () => {
@@ -7,7 +9,9 @@ test("renders content", () => {
     important: true,
   };
 
-  render(<Note note={note} />);
+  const mockHandler = vi.fn()
+
+  render(<Note note={note} toggleImportance={mockHandler} />);
 
   const element = screen.getByText(
     "Component testing is done with react-testing-library"
