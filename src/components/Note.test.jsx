@@ -13,6 +13,8 @@ test("renders content", () => {
 
   render(<Note note={note} toggleImportance={mockHandler} />);
 
+  screen.debug()
+
   const element = screen.getByText(
     "Component testing is done with react-testing-library"
   );
