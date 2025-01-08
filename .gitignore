@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 db.json
 notes-frontend.code-workspace
+
+coverage
+image.png
