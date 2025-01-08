@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getUserFromLocalStorage } from "../utils/localStorage.utils";
 const baseUrl = "/api/notes";
 
 let token = null;
@@ -18,7 +19,11 @@ const create = (newObject) => {
       Authorization: token,
     },
   };
-  const request = axios.post(baseUrl, newObject, config);
+  const payload = {
+    ...newObject,
+    userId: getUserFromLocalStorage.id,
+  };
+  const request = axios.post(baseUrl, payload, config);
   return request.then((response) => response.data);
 };
 
@@ -28,7 +33,7 @@ const update = (id, newObject) => {
 };
 
 export default {
-  getAll,
+  getAll,git 
   create,
   update,
   setToken,
