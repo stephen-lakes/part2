@@ -27,13 +27,13 @@ test("clicking the button calls event handler once", async () => {
     important: true,
   };
 
-  const mockHandler = v1.fn();
+  const mockHandler = vi.fn();
 
   render(<Note note={note} toggleImportance={mockHandler} />);
 
   const user = userEvent.setup();
   const button = screen.getByText("make not important");
   user.click(button);
-  
-  expect(mockHandler.mock.calls).toHaveLength(1)
+
+  expect(mockHandler.mock.calls).toHaveLength(1);
 });
